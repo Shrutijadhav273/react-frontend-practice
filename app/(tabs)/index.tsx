@@ -15,7 +15,6 @@ export default function HomeScreen() {
 
     setIsNight(!isNight);
   };
-
   // Interpolations
   const skyColor = anim.interpolate({
     inputRange: [0, 1],
