@@ -1,73 +1,103 @@
-import { useRef } from "react";
-import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
+import { useRef, useState } from "react";
+import { Animated, Pressable, StyleSheet, Text } from "react-native";
 
 export default function HomeScreen() {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [isNight, setIsNight] = useState(false);
 
-  const handlePress = () => {
-    // Button press animation
-    Animated.sequence([
-      Animated.spring(scaleAnim, {
-        toValue: 0.9,
-        useNativeDriver: true,
-      }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        useNativeDriver: true,
-      }),
-    ]).start();
+  const anim = useRef(new Animated.Value(0)).current;
 
-    // Fade box animation
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 600,
-      useNativeDriver: true,
+  const toggleTheme = () => {
+    Animated.timing(anim, {
+      toValue: isNight ? 0 : 1,
+      duration: 800,
+      useNativeDriver: false,
     }).start();
+
+    setIsNight(!isNight);
   };
 
+  // Interpolations
+  const skyColor = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["#87CEEB", "#0B0F2F"], // day → night
+  });
+
+  const sunPosition = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 200], // goes down
+  });
+
+  const moonPosition = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [200, 0], // comes up
+  });
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { backgroundColor: skyColor }]}>
       
-      <Animated.View style={[styles.box, { opacity: fadeAnim }]} />
+      {/* Sun */}
+      <Animated.View
+        style={[
+          styles.sun,
+          { transform: [{ translateY: sunPosition }] },
+        ]}
+      />
 
-      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-        <Pressable style={styles.button} onPress={handlePress}>
-          <Text style={styles.buttonText}>Animate</Text>
-        </Pressable>
-      </Animated.View>
+      {/* Moon */}
+      <Animated.View
+        style={[
+          styles.moon,
+          { transform: [{ translateY: moonPosition }] },
+        ]}
+      />
 
-    </View>
+      {/* Toggle Button */}
+      <Pressable style={styles.button} onPress={toggleTheme}>
+        <Text style={styles.buttonText}>
+          {isNight ? "Switch to Day" : "Switch to Night"}
+        </Text>
+      </Pressable>
+
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#111", // dark UI 🔥
+    justifyContent: "center",
   },
 
-  box: {
-    width: 120,
-    height: 120,
-    backgroundColor: "#4CAF50",
-    borderRadius: 20,
-    marginBottom: 40,
+  sun: {
+    position: "absolute",
+    top: 100,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#FFD700", // sun color
+  },
+
+  moon: {
+    position: "absolute",
+    top: 100,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#FFF",
   },
 
   button: {
+    position: "absolute",
+    bottom: 80,
     backgroundColor: "#6200EE",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 30,
-    elevation: 5,
   },
 
   buttonText: {
     color: "#fff",
-    fontSize: 16,
     fontWeight: "bold",
   },
 });
