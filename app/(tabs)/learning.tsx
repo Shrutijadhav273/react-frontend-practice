@@ -35,7 +35,11 @@ export default function learning() {
         
         <View style={styles.container}>
              <Text style={styles.title}>Learning React Native</Text>
-             
+             <Animated.Text style={[styles.hand, { transform: [{ rotate }] }]}>
+        👋
+      </Animated.Text>
+
+      <Text style={styles.text}>Hello!</Text>
         
 
         <Pressable
@@ -71,4 +75,9 @@ const styles=StyleSheet.create({
       hand: {
     fontSize: 80,
   },
+  text: {
+    fontSize: 24,
+    color: "#fff",
+    marginTop: 10,
+  }
 });
