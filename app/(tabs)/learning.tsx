@@ -73,7 +73,7 @@ const styles=StyleSheet.create({
         fontWeight: "bold",
     },
       hand: {
-    fontSize: 80,
+    fontSize: 40,
   },
   text: {
     fontSize: 24,
