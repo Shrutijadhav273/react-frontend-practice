@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Animated, Pressable, StyleSheet, Text } from "react-native";
 
+
 export default function HomeScreen() {
   const [isNight, setIsNight] = useState(false);
 
