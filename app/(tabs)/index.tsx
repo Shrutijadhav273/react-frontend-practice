@@ -1,6 +1,6 @@
+import { router } from "expo-router";
 import { useRef, useState } from "react";
-import { Animated, Pressable, StyleSheet, Text } from "react-native";
-
+import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const [isNight, setIsNight] = useState(false);
@@ -16,20 +16,21 @@ export default function HomeScreen() {
 
     setIsNight(!isNight);
   };
+
   // Interpolations
   const skyColor = anim.interpolate({
     inputRange: [0, 1],
-    outputRange: ["#87CEEB", "#0B0F2F"], // day → night
+    outputRange: ["#87CEEB", "#0B0F2F"],
   });
 
   const sunPosition = anim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 200], // goes down
+    outputRange: [0, 200],
   });
 
   const moonPosition = anim.interpolate({
     inputRange: [0, 1],
-    outputRange: [200, 0], // comes up
+    outputRange: [200, 0],
   });
 
   return (
@@ -51,12 +52,25 @@ export default function HomeScreen() {
         ]}
       />
 
-      {/* Toggle Button */}
-      <Pressable style={styles.button} onPress={toggleTheme}>
-        <Text style={styles.buttonText}>
-          {isNight ? "Switch to Day" : "Switch to Night"}
-        </Text>
-      </Pressable>
+      {/* Buttons Container */}
+      <View style={styles.buttonContainer}>
+
+        {/* Toggle Button */}
+        <Pressable style={styles.button} onPress={toggleTheme}>
+          <Text style={styles.buttonText}>
+            {isNight ? "Switch to Day" : "Switch to Night"}
+          </Text>
+        </Pressable>
+
+        {/* Navigation Button */}
+        <Pressable
+          style={styles.button}
+          onPress={() => router.push("/(tabs)/learning")}
+        >
+          <Text style={styles.buttonText}>Go to Learning Page</Text>
+        </Pressable>
+
+      </View>
 
     </Animated.View>
   );
@@ -75,7 +89,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "#FFD700", // sun color
+    backgroundColor: "#FFD700",
   },
 
   moon: {
@@ -87,9 +101,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
 
-  button: {
+  buttonContainer: {
     position: "absolute",
-    bottom: 80,
+    bottom: 40,
+    alignItems: "center",
+    gap: 15, // spacing between buttons
+  },
+
+  button: {
     backgroundColor: "#6200EE",
     paddingVertical: 15,
     paddingHorizontal: 30,
