@@ -51,6 +51,17 @@ export default function LearningScreen() {
         value={email}
         onChangeText={setEmail}
       />
+      {/* password input*/}
+      <Text style={styles.label}>Password</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your password"
+        placeholderTextColor="#aaa"
+        value={pass}
+        onChangeText={setpass}
+        secureTextEntry
+      />
+
 
       {/* Error Message */}
       {error !== "" && <Text style={styles.error}>{error}</Text>}
