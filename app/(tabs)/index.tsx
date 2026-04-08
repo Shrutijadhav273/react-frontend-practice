@@ -65,7 +65,7 @@ export default function HomeScreen() {
         {/* Navigation Button */}
         <Pressable
           style={styles.button}
-          onPress={() => router.push("/(tabs)/learning")}
+          onPress={() => router.push("/learning")}
         >
           <Text style={styles.buttonText}>Go to Learning Page</Text>
         </Pressable>
