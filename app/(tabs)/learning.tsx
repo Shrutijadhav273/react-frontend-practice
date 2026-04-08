@@ -1,7 +1,38 @@
 import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
+
 export default function learning() {
+
+      const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    waveHand();
+  }, []);
+
+  const waveHand = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(rotateAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(rotateAnim, {
+          toValue: -1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
+
+  const rotate = rotateAnim.interpolate({
+    inputRange: [-1, 1],
+    outputRange: ["-30deg", "30deg"],
+  });
     return (
+        
         <View style={styles.container}>
              <Text style={styles.title}>Learning React Native</Text>
              
@@ -36,5 +67,8 @@ const styles=StyleSheet.create({
     buttonText:{
         color: "#fff",
         fontWeight: "bold",
-    }
+    },
+      hand: {
+    fontSize: 80,
+  },
 });
