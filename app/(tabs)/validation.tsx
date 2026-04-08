@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 export default function LearningScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [pass, setpass]=useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
@@ -16,6 +17,10 @@ export default function LearningScreen() {
     if (!email.includes("@")) {
       setError("Enter valid email");
       return;
+    }
+    if (pass.length<6){
+        setError("Password must be at least 6 characters");
+        return;
     }
 
     setError("");
